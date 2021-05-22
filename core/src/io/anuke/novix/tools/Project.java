@@ -43,7 +43,7 @@ public class Project implements Disposable, Comparable<Project> {
     }
 
     public FileHandle getFile() {
-        return Core.i.projectmanager.getFile(this.id);
+        return Core.instance.projectmanager.getFile(this.id);
     }
 
     public void dispose() {

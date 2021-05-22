@@ -89,10 +89,10 @@ public class ActionStack implements Disposable {
         Iterator<DrawAction> it = this.stack.iterator();
         while (it.hasNext()) {
             DrawAction action = it.next();
-            if (!(action.toCanvas == null || action.toCanvas == Core.i.canvas())) {
+            if (!(action.toCanvas == null || action.toCanvas == Core.instance.canvas())) {
                 action.toCanvas.dispose();
             }
-            if (!(action.fromCanvas == null || action.fromCanvas == Core.i.canvas() || PixmapUtils.isDisposed(action.fromCanvas.pixmap))) {
+            if (!(action.fromCanvas == null || action.fromCanvas == Core.instance.canvas() || PixmapUtils.isDisposed(action.fromCanvas.pixmap))) {
                 action.fromCanvas.dispose();
             }
         }

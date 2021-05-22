@@ -16,12 +16,12 @@ public class ImagePreview extends Group {
         this.image = new PixmapImage(pixmap);
         int scale = pixmap.getWidth();
         AlphaImage alpha = new AlphaImage((float) scale, (float) ((int) (((float) scale) * (1.0f / (((float) pixmap.getWidth()) / ((float) pixmap.getHeight()))))));
-        GridImage grid = new GridImage(Core.i.drawgrid.canvas.width(), Core.i.drawgrid.canvas.height());
+        GridImage grid = new GridImage(Core.instance.drawgrid.canvas.width(), Core.instance.drawgrid.canvas.height());
         BorderImage border = new BorderImage();
         border.setColor(Color.CORAL);
         this.stack.add(alpha);
         this.stack.add(this.image);
-        if (Core.i.prefs.getBoolean("grid")) {
+        if (Core.instance.prefs.getBoolean("grid")) {
             this.stack.add(grid);
         }
         this.stack.add(border);

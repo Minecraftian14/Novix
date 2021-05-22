@@ -1,6 +1,7 @@
 package io.anuke.novix.modules;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
@@ -17,25 +18,26 @@ import io.anuke.ucore.modules.Module;
 import io.anuke.utools.SceneUtils;
 
 /* renamed from: io.anuke.novix.modules.Input */
-public class Input extends Module<Novix> implements InputProcessor {
+public class InputModule extends Module<Novix> implements InputProcessor {
     /* access modifiers changed from: private */
-    public Input input;
+    public InputModule inputModule;
     private Vector2 vector = new Vector2();
 
     public void update() {
-        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.ESCAPE)) {
+
+        if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
             Gdx.app.exit();
         }
-        if (Gdx.input.isKeyPressed(51)) {
+        if (Gdx.input.isKeyPressed(Keys.W)) {
             ((Core) getModule(Core.class)).drawgrid.offsety += 10.0f;
         }
-        if (Gdx.input.isKeyPressed(29)) {
+        if (Gdx.input.isKeyPressed(Keys.A)) {
             ((Core) getModule(Core.class)).drawgrid.offsetx -= 10.0f;
         }
-        if (Gdx.input.isKeyPressed(47)) {
+        if (Gdx.input.isKeyPressed(Keys.S)) {
             ((Core) getModule(Core.class)).drawgrid.offsety -= 10.0f;
         }
-        if (Gdx.input.isKeyPressed(32)) {
+        if (Gdx.input.isKeyPressed(Keys.D)) {
             ((Core) getModule(Core.class)).drawgrid.offsetx += 10.0f;
         }
         ((Core) getModule(Core.class)).drawgrid.updateSize();
@@ -43,22 +45,22 @@ public class Input extends Module<Novix> implements InputProcessor {
     }
 
     public void init() {
-        this.input = this;
+        this.inputModule = this;
         Gdx.input.setCatchBackKey(true);
         GestureDetector gesture = new GestureDetector(20.0f, 0.5f, 2.0f, 0.15f, new GestureDetectorListener());
         InputMultiplexer plex = new InputMultiplexer();
         plex.addProcessor((InputProcessor) getModule(Tutorial.class));
-        plex.addProcessor(new GestureDetector(20.0f, 0.5f, 2.0f, 0.15f, new GestureManager(Core.i)));
+        plex.addProcessor(new GestureDetector(20.0f, 0.5f, 2.0f, 0.15f, new GestureManager(Core.instance)));
         plex.addProcessor(this);
         plex.addProcessor(((Core) getModule(Core.class)).stage);
-        plex.addProcessor(Core.i.drawgrid.input);
+        plex.addProcessor(Core.instance.drawgrid.input);
         plex.addProcessor(gesture);
         Gdx.input.setInputProcessor(plex);
     }
 
     public boolean keyDown(int keycode) {
         VisDialog dialog;
-        if (keycode != 4 || (dialog = Core.i.getCurrentDialog()) == null) {
+        if (keycode != 4 || (dialog = Core.instance.getCurrentDialog()) == null) {
             return false;
         }
         dialog.hide();
@@ -77,8 +79,8 @@ public class Input extends Module<Novix> implements InputProcessor {
     }
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (Core.i.stage.getScrollFocus() != null) {
-            Actor parent = SceneUtils.getTopParent(Core.i.stage.getScrollFocus());
+        if (Core.instance.stage.getScrollFocus() != null) {
+            Actor parent = SceneUtils.getTopParent(Core.instance.stage.getScrollFocus());
             if (parent instanceof VisDialog) {
                 VisDialog dialog = (VisDialog) parent;
                 if (!SceneUtils.mouseOnActor(dialog, this.vector)) {
@@ -113,14 +115,14 @@ public class Input extends Module<Novix> implements InputProcessor {
         Vector2 lastpinch;
 
         /* renamed from: to */
-        Vector2 f321to = new Vector2();
+        Vector2 to = new Vector2();
         Vector2 toward = new Vector2();
 
         GestureDetectorListener() {
         }
 
         public boolean touchDown(float x, float y, int pointer, int button) {
-            this.initzoom = ((Core) Input.this.input.getModule(Core.class)).drawgrid.zoom;
+            this.initzoom = ((Core) InputModule.this.inputModule.getModule(Core.class)).drawgrid.zoom;
             return false;
         }
 
@@ -137,46 +139,46 @@ public class Input extends Module<Novix> implements InputProcessor {
         }
 
         public boolean pan(float x, float y, float deltaX, float deltaY) {
-            if (!Core.i.menuOpen() && ((Core) Input.this.input.getModule(Core.class)).tool() == Tool.zoom) {
-                Input.this.drawgrid().offsetx -= deltaX / Input.this.drawgrid().zoom;
-                Input.this.drawgrid().offsety += deltaY / Input.this.drawgrid().zoom;
-                Input.this.drawgrid().updateSize();
-                Input.this.drawgrid().updateBounds();
+            if (!Core.instance.menuOpen() && ((Core) InputModule.this.inputModule.getModule(Core.class)).tool() == Tool.zoom) {
+                InputModule.this.drawgrid().offsetx -= deltaX / InputModule.this.drawgrid().zoom;
+                InputModule.this.drawgrid().offsety += deltaY / InputModule.this.drawgrid().zoom;
+                InputModule.this.drawgrid().updateSize();
+                InputModule.this.drawgrid().updateBounds();
             }
             return false;
         }
 
         public boolean zoom(float initialDistance, float distance) {
-            if (Core.i.tool() == Tool.zoom && !Core.i.menuOpen()) {
+            if (Core.instance.tool() == Tool.zoom && !Core.instance.menuOpen()) {
                 float newzoom = this.initzoom * (distance / initialDistance);
-                if (newzoom < Input.this.drawgrid().maxZoom()) {
-                    newzoom = Input.this.drawgrid().maxZoom();
+                if (newzoom < InputModule.this.drawgrid().maxZoom()) {
+                    newzoom = InputModule.this.drawgrid().maxZoom();
                 }
-                Input.this.drawgrid().setZoom(newzoom);
+                InputModule.this.drawgrid().setZoom(newzoom);
             }
             return false;
         }
 
         public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-            if (Core.i.tool() == Tool.zoom && !Core.i.menuOpen()) {
+            if (Core.instance.tool() == Tool.zoom && !Core.instance.menuOpen()) {
                 Vector2 afirst = initialPointer1.cpy().add(initialPointer2).scl(0.5f);
                 Vector2 alast = pointer1.cpy().add(pointer2).scl(0.5f);
                 if (!afirst.epsilonEquals(this.lastinitialpinch, 0.1f)) {
                     this.lastinitialpinch = afirst;
                     this.lastpinch = afirst.cpy();
-                    this.toward.set(Input.this.drawgrid().offsetx, Input.this.drawgrid().offsety);
-                    this.f321to.x = ((afirst.x - ((float) (Gdx.graphics.getWidth() / 2))) / Input.this.drawgrid().zoom) + Input.this.drawgrid().offsetx;
-                    this.f321to.y = (((((float) Gdx.graphics.getHeight()) - afirst.y) - ((float) (Gdx.graphics.getHeight() / 2))) / Input.this.drawgrid().zoom) + Input.this.drawgrid().offsety;
+                    this.toward.set(InputModule.this.drawgrid().offsetx, InputModule.this.drawgrid().offsety);
+                    this.to.x = ((afirst.x - ((float) (Gdx.graphics.getWidth() / 2))) / InputModule.this.drawgrid().zoom) + InputModule.this.drawgrid().offsetx;
+                    this.to.y = (((((float) Gdx.graphics.getHeight()) - afirst.y) - ((float) (Gdx.graphics.getHeight() / 2))) / InputModule.this.drawgrid().zoom) + InputModule.this.drawgrid().offsety;
                 }
                 this.lastpinch.sub(alast);
-                Input.this.drawgrid().moveOffset(this.lastpinch.x / Input.this.drawgrid().zoom, (-this.lastpinch.y) / Input.this.drawgrid().zoom);
+                InputModule.this.drawgrid().moveOffset(this.lastpinch.x / InputModule.this.drawgrid().zoom, (-this.lastpinch.y) / InputModule.this.drawgrid().zoom);
                 this.lastpinch = alast;
             }
             return false;
         }
 
         public boolean panStop(float x, float y, int pointer, int button) {
-            this.initzoom = Core.i.drawgrid.zoom;
+            this.initzoom = Core.instance.drawgrid.zoom;
             return false;
         }
 
@@ -185,6 +187,6 @@ public class Input extends Module<Novix> implements InputProcessor {
     }
 
     public DrawingGrid drawgrid() {
-        return ((Core) this.input.getModule(Core.class)).drawgrid;
+        return ((Core) this.inputModule.getModule(Core.class)).drawgrid;
     }
 }

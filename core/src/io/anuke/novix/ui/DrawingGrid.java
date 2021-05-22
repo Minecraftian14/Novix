@@ -63,7 +63,7 @@ public class DrawingGrid extends Actor {
         }
 
         public boolean touchDown(int x, int y, int pointer, int button) {
-            if (!Core.i.tool().moveCursor() || !Core.i.colorMenuCollapsed() || !Core.i.toolMenuCollapsed() || checkRange(y)) {
+            if (!Core.instance.tool().moveCursor() || !Core.instance.colorMenuCollapsed() || !Core.instance.toolMenuCollapsed() || checkRange(y)) {
                 return false;
             }
             DrawingGrid drawingGrid = DrawingGrid.this;
@@ -91,10 +91,10 @@ public class DrawingGrid extends Actor {
             if (DrawingGrid.this.cursormode()) {
                 if (pointer == DrawingGrid.this.tpointer) {
                     DrawingGrid.this.moving = false;
-                } else if (Core.i.tool().push) {
+                } else if (Core.instance.tool().push) {
                     DrawingGrid.this.canvas.pushActions();
                 }
-            } else if (Core.i.tool().push) {
+            } else if (Core.instance.tool().push) {
                 DrawingGrid.this.canvas.pushActions();
             }
             DrawingGrid drawingGrid = DrawingGrid.this;
@@ -106,7 +106,7 @@ public class DrawingGrid extends Actor {
             if (keycode != 33) {
                 return false;
             }
-            if (Core.i.tool().push) {
+            if (Core.instance.tool().push) {
                 DrawingGrid.this.canvas.pushActions();
             }
             return true;
@@ -123,7 +123,7 @@ public class DrawingGrid extends Actor {
         public boolean touchDragged(int x, int y, int pointer) {
             float movex;
             float movey;
-            if ((pointer != 0 && Gdx.app.getType() != Application.ApplicationType.Desktop) || DrawingGrid.this.touches == 0 || !Core.i.tool().moveCursor()) {
+            if ((pointer != 0 && Gdx.app.getType() != Application.ApplicationType.Desktop) || DrawingGrid.this.touches == 0 || !Core.instance.tool().moveCursor()) {
                 return false;
             }
             float cursorSpeed = DrawingGrid.this.baseCursorSpeed * DrawingGrid.this.core.prefs.getFloat("cursorspeed", 1.0f);
@@ -147,10 +147,10 @@ public class DrawingGrid extends Actor {
                 int newx = (int) ((DrawingGrid.this.cursorx + currentx) / (DrawingGrid.this.canvasScale() * DrawingGrid.this.zoom));
                 int newy = (int) ((DrawingGrid.this.cursory + currenty) / (DrawingGrid.this.canvasScale() * DrawingGrid.this.zoom));
                 if (DrawingGrid.this.cursormode()) {
-                    if (!(DrawingGrid.this.selected.x == newx && DrawingGrid.this.selected.y == newy) && ((DrawingGrid.this.touches > 1 || Gdx.input.isKeyPressed(33)) && Core.i.tool().drawOnMove)) {
+                    if (!(DrawingGrid.this.selected.x == newx && DrawingGrid.this.selected.y == newy) && ((DrawingGrid.this.touches > 1 || Gdx.input.isKeyPressed(33)) && Core.instance.tool().drawOnMove)) {
                         DrawingGrid.this.processToolTap(newx, newy);
                     }
-                } else if (!(DrawingGrid.this.selected.x == newx && DrawingGrid.this.selected.y == newy) && Core.i.tool().drawOnMove) {
+                } else if (!(DrawingGrid.this.selected.x == newx && DrawingGrid.this.selected.y == newy) && Core.instance.tool().drawOnMove) {
                     DrawingGrid.this.processToolTap(newx, newy);
                 }
                 DrawingGrid.this.selected.set(newx, newy);
@@ -158,7 +158,7 @@ public class DrawingGrid extends Actor {
             if (!DrawingGrid.this.cursormode()) {
                 DrawingGrid.this.cursorx = ((float) x) - DrawingGrid.this.getX();
                 DrawingGrid.this.cursory = ((float) (Gdx.graphics.getHeight() - y)) - DrawingGrid.this.getY();
-            } else if (pointer != DrawingGrid.this.tpointer || !Core.i.tool().moveCursor()) {
+            } else if (pointer != DrawingGrid.this.tpointer || !Core.instance.tool().moveCursor()) {
                 return false;
             } else {
                 DrawingGrid drawingGrid = DrawingGrid.this;
@@ -185,15 +185,15 @@ public class DrawingGrid extends Actor {
 
     /* access modifiers changed from: private */
     public void processToolTap(int x, int y) {
-        Core.i.tool().clicked(Core.i.selectedColor(), this.canvas, x, y);
-        if (Core.i.tool().symmetric()) {
+        Core.instance.tool().clicked(Core.instance.selectedColor(), this.canvas, x, y);
+        if (Core.instance.tool().symmetric()) {
             if (this.vSymmetry) {
-                Core.i.tool().clicked(Core.i.selectedColor(), this.canvas, (this.canvas.width() - 1) - x, y);
+                Core.instance.tool().clicked(Core.instance.selectedColor(), this.canvas, (this.canvas.width() - 1) - x, y);
             }
             if (this.hSymmetry) {
-                Core.i.tool().clicked(Core.i.selectedColor(), this.canvas, x, (this.canvas.height() - 1) - y);
+                Core.instance.tool().clicked(Core.instance.selectedColor(), this.canvas, x, (this.canvas.height() - 1) - y);
                 if (this.vSymmetry) {
-                    Core.i.tool().clicked(Core.i.selectedColor(), this.canvas, (this.canvas.width() - 1) - x, (this.canvas.height() - 1) - y);
+                    Core.instance.tool().clicked(Core.instance.selectedColor(), this.canvas, (this.canvas.width() - 1) - x, (this.canvas.height() - 1) - y);
                 }
             }
         }
@@ -266,7 +266,7 @@ public class DrawingGrid extends Actor {
                 action.fromCanvas = this.canvas;
                 action.toCanvas = canvas2;
                 this.actions.add(action);
-            } else if (!Core.i.loadingProject()) {
+            } else if (!Core.instance.loadingProject()) {
                 Novix.log("Drawgrid: disposing old canvas: " + this.canvas.name);
                 this.canvas.dispose();
             } else {
@@ -296,7 +296,7 @@ public class DrawingGrid extends Actor {
         this.offsety = getHeight() / 2.0f;
         this.gridimage.setImageSize(canvas2.width(), canvas2.height());
         this.alphaimage.setImageSize(canvas2.width(), canvas2.height());
-        Core.i.projectmanager.saveProject();
+        Core.instance.projectmanager.saveProject();
     }
 
     public void updateCursorSelection() {
@@ -343,7 +343,7 @@ public class DrawingGrid extends Actor {
             batch.draw((TextureRegion) VisUI.getSkin().getAtlas().findRegion("white"), getX(), (float) ((int) ((getY() + (getHeight() / 2.0f)) - 2.0f)), getWidth(), 4.0f);
         }
         int xt = (int) (4.0f * (10.0f / ((float) this.canvas.width())) * this.zoom);
-        if ((cursormode() || (this.touches > 0 && Core.i.tool().moveCursor())) && Core.i.tool().drawCursor()) {
+        if ((cursormode() || (this.touches > 0 && Core.instance.tool().moveCursor())) && Core.instance.tool().drawCursor()) {
             this.tempcolor.set(this.canvas.getIntColor(this.selected.x, this.selected.y));
             if (this.tempcolor.r + this.tempcolor.g + this.tempcolor.b < 1.5f || this.tempcolor.a < 0.01f || (this.core.tool().scalable() && this.core.prefs.getInteger("brushsize") > 1)) {
                 this.tempcolor.set(Color.CORAL);
@@ -367,13 +367,13 @@ public class DrawingGrid extends Actor {
         MiscUtils.drawBorder(batch, ((float) (Gdx.graphics.getWidth() / 2)) - (min() / 2.0f), ((float) (Gdx.graphics.getHeight() / 2)) - (min() / 2.0f), min(), min(), 2);
         batch.setColor(Color.CORAL);
         MiscUtils.drawBorder(batch, (float) ((int) getX()), (float) ((int) getY()), (float) ((int) getWidth()), (float) ((int) getHeight()), (int) (2.0f * UCore.s), aspectRatio() < 1.0f ? 1 : 0, aspectRatio() > 1.0f ? 1 : 0);
-        if (cursormode() || ((this.touches > 0 && Core.i.tool().moveCursor()) || !Core.i.tool().moveCursor())) {
+        if (cursormode() || ((this.touches > 0 && Core.instance.tool().moveCursor()) || !Core.instance.tool().moveCursor())) {
             batch.setColor(Color.PURPLE);
             float csize = 32.0f * this.core.prefs.getFloat("cursorsize", 1.0f) * UCore.s;
-            batch.draw(Textures.get(Core.i.tool().cursor), (getX() + this.cursorx) - (csize / 2.0f), (getY() + this.cursory) - (csize / 2.0f), csize, csize);
+            batch.draw(Textures.get(Core.instance.tool().cursor), (getX() + this.cursorx) - (csize / 2.0f), (getY() + this.cursory) - (csize / 2.0f), csize, csize);
             batch.setColor(Color.CORAL);
-            if (!(Core.i.tool() == Tool.pencil || Core.i.tool() == Tool.zoom)) {
-                batch.draw(VisUI.getSkin().getRegion("icon-" + Core.i.tool().name()), this.cursorx + getX(), this.cursory + getY(), csize, csize);
+            if (!(Core.instance.tool() == Tool.pencil || Core.instance.tool() == Tool.zoom)) {
+                batch.draw(VisUI.getSkin().getRegion("icon-" + Core.instance.tool().name()), this.cursorx + getX(), this.cursory + getY(), csize, csize);
             }
         }
         batch.draw(Textures.get("alpha"), -999.0f, -999.0f, 30.0f, 30.0f);
@@ -384,7 +384,7 @@ public class DrawingGrid extends Actor {
 
     private void drawSelection(Batch batch, int x, int y, float cscl, float xt) {
         ShapeUtils.thickness = (float) ((int) (4.0f * UCore.s));
-        ShapeUtils.polygon(batch, !Core.i.tool().scalable() ? this.brushPolygons[0] : this.brushPolygons[this.brushSize - 1], (float) ((int) (getX() + (((float) x) * cscl))), (float) ((int) (getY() + (((float) y) * cscl))), cscl);
+        ShapeUtils.polygon(batch, !Core.instance.tool().scalable() ? this.brushPolygons[0] : this.brushPolygons[this.brushSize - 1], (float) ((int) (getX() + (((float) x) * cscl))), (float) ((int) (getY() + (((float) y) * cscl))), cscl);
     }
 
     public void updateCursor() {

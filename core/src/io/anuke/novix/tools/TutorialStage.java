@@ -37,7 +37,7 @@ public enum TutorialStage {
             color(select);
             rect(button.getX(), button.getY(), button.getWidth(), button.getHeight());
             arrow((float) (width / 2), (float) (height / 2), ((float) (height / 2)) - (button.getHeight() * 1.5f), true);
-            if (!Core.i.colorMenuCollapsed()) {
+            if (!Core.instance.colorMenuCollapsed()) {
                 next();
             }
         }
@@ -48,7 +48,7 @@ public enum TutorialStage {
             CollapseButton button = (CollapseButton) find("colorcollapsebutton");
             shade(button.getX(), button.getY(), button.getWidth(), button.getHeight());
             shade(0.0f, 0.0f, (float) Gdx.graphics.getWidth(), find("toolcollapsebutton").getTop());
-            Core.i.getSelectedBox().draw(this.batch, 1.0f);
+            Core.instance.getSelectedBox().draw(this.batch, 1.0f);
             color(Color.WHITE);
             text((float) (width / 2), ((float) height) - (120.0f * UCore.s), "This is this the color menu.\nHere you can edit the color palette.");
             color(Color.PURPLE);
@@ -66,7 +66,7 @@ public enum TutorialStage {
             shade(button.getX(), button.getY(), button.getWidth(), button.getHeight());
             shade(0.0f, 0.0f, (float) Gdx.graphics.getWidth(), find("toolcollapsebutton").getTop());
             color(Color.WHITE);
-            Core.i.getSelectedBox().draw(this.batch, 1.0f);
+            Core.instance.getSelectedBox().draw(this.batch, 1.0f);
             text((float) (width / 2), ((float) height) - (70.0f * UCore.s), "< Tap any color in this bar to edit it. >");
             color(Color.PURPLE);
             text((float) (width / 2), (float) (height / 2), "<tap to continue>");
@@ -91,7 +91,7 @@ public enum TutorialStage {
             if (palettebutton.getClickListener().getTapCount() > 0) {
                 next();
             }
-            Core.i.getSelectedBox().draw(this.batch, 1.0f);
+            Core.instance.getSelectedBox().draw(this.batch, 1.0f);
         }
     },
     palettes {
@@ -104,10 +104,10 @@ public enum TutorialStage {
         }
 
         public void tap(int x, int y) {
-            if (Core.i.getCurrentDialog() != null) {
-                Core.i.getCurrentDialog().hide();
+            if (Core.instance.getCurrentDialog() != null) {
+                Core.instance.getCurrentDialog().hide();
             }
-            Core.i.collapseColorMenu();
+            Core.instance.collapseColorMenu();
             next();
         }
     },
@@ -128,7 +128,7 @@ public enum TutorialStage {
     canvas {
         /* access modifiers changed from: protected */
         public void draw() {
-            ColorBar bar = (ColorBar) Core.i.stage.getRoot().findActor("alphabar");
+            ColorBar bar = (ColorBar) Core.instance.stage.getRoot().findActor("alphabar");
             if (!MathUtils.isEqual(bar.getSelection(), 1.0f)) {
                 bar.setSelection(1.0f);
                 bar.fire(new ChangeListener.ChangeEvent());
@@ -136,16 +136,16 @@ public enum TutorialStage {
             shade(0.0f, 0.0f, (float) width, find("toolcollapsebutton").getTop());
             float h = colorHeight();
             shade(0.0f, ((float) height) - h, (float) width, h);
-            if (Core.i.getCurrentDialog() != null) {
-                Core.i.getCurrentDialog().hide();
+            if (Core.instance.getCurrentDialog() != null) {
+                Core.instance.getCurrentDialog().hide();
             }
-            if (!Core.i.colorMenuCollapsed()) {
-                Core.i.collapseColorMenu();
+            if (!Core.instance.colorMenuCollapsed()) {
+                Core.instance.collapseColorMenu();
             }
-            if (!Core.i.toolMenuCollapsed()) {
-                Core.i.collapseToolMenu();
+            if (!Core.instance.toolMenuCollapsed()) {
+                Core.instance.collapseToolMenu();
             }
-            Core.i.drawgrid.zoom = 1.0f;
+            Core.instance.drawgrid.zoom = 1.0f;
             color(Color.WHITE);
             text((float) (width / 2), (float) (height / 2), "This is the canvas.");
             color(Color.PURPLE);
@@ -175,7 +175,7 @@ public enum TutorialStage {
     canvascursormode {
         /* access modifiers changed from: protected */
         public void draw() {
-            VisImageButton button = (VisImageButton) Core.i.stage.getRoot().findActor("modebutton");
+            VisImageButton button = (VisImageButton) Core.instance.stage.getRoot().findActor("modebutton");
             if (!button.isChecked()) {
                 ((ClickListener) button.getListeners().get(0)).clicked((InputEvent) null, 0.0f, 0.0f);
             }
@@ -197,7 +197,7 @@ public enum TutorialStage {
     canvastouchmode {
         /* access modifiers changed from: protected */
         public void draw() {
-            VisImageButton button = (VisImageButton) Core.i.stage.getRoot().findActor("modebutton");
+            VisImageButton button = (VisImageButton) Core.instance.stage.getRoot().findActor("modebutton");
             if (button.isChecked()) {
                 ((ClickListener) button.getListeners().get(0)).clicked((InputEvent) null, 0.0f, 0.0f);
             }
@@ -221,9 +221,9 @@ public enum TutorialStage {
 
         /* access modifiers changed from: protected */
         public void draw() {
-            if (Core.i.toolMenuCollapsed()) {
+            if (Core.instance.toolMenuCollapsed()) {
                 Tool.pencil.button.setChecked(false);
-                Core.i.collapseToolMenu();
+                Core.instance.collapseToolMenu();
             }
             float f = ((float) width) / ((float) Tool.values().length);
             shade(0.0f, f, (float) width, ((float) height) - f);
@@ -247,7 +247,7 @@ public enum TutorialStage {
                 this.selected.button.setChecked(false);
             }
             if (((float) y) > ((float) (height / 2)) + (40.0f * UCore.s)) {
-                Core.i.tool().button.setChecked(true);
+                Core.instance.tool().button.setChecked(true);
                 next();
             }
         }
@@ -257,9 +257,9 @@ public enum TutorialStage {
         public void draw() {
             float f = find("toolcollapsebutton").getTop();
             shade(0.0f, 0.0f, (float) width, f);
-            shade(0.0f, (((((SmoothCollapsibleWidget) find("toolcollapser")).getDone() * Core.i.toolmenu.getPrefHeight()) + f) - (78.0f * UCore.s)) - 10.0f, (float) width, ((float) height) - f);
-            Actor modebutton = Core.i.stage.getRoot().findActor("modebutton");
-            Actor gridbutton = Core.i.stage.getRoot().findActor("gridbutton");
+            shade(0.0f, (((((SmoothCollapsibleWidget) find("toolcollapser")).getDone() * Core.instance.toolmenu.getPrefHeight()) + f) - (78.0f * UCore.s)) - 10.0f, (float) width, ((float) height) - f);
+            Actor modebutton = Core.instance.stage.getRoot().findActor("modebutton");
+            Actor gridbutton = Core.instance.stage.getRoot().findActor("gridbutton");
             modebutton.localToStageCoordinates(this.temp.set(0.0f, 0.0f));
             color(Color.WHITE);
             text(this.temp.x + modebutton.getWidth() + (UCore.s * 5.0f), this.temp.y + modebutton.getHeight(), "Use this button\nto change the [CORAL]draw\nmode.", 8);
@@ -276,21 +276,21 @@ public enum TutorialStage {
     toolmenu {
         /* access modifiers changed from: protected */
         public void draw() {
-            if (Core.i.toolMenuCollapsed()) {
-                Core.i.collapseToolMenu();
+            if (Core.instance.toolMenuCollapsed()) {
+                Core.instance.collapseToolMenu();
             }
-            VisTextButton button = (VisTextButton) ((Table) Core.i.toolmenu.getChildren().first()).getChildren().first();
+            VisTextButton button = (VisTextButton) ((Table) Core.instance.toolmenu.getChildren().first()).getChildren().first();
             float f = ((float) (width / Tool.values().length)) + (61.0f * UCore.s);
             color(select);
             rect(button);
-            shade(0.0f, 0.0f, (float) width, (Core.i.toolmenu.getPrefHeight() + f) - (UCore.s * 77.0f));
-            shade(0.0f, Core.i.toolmenu.getPrefHeight() + f, (float) width, ((float) height) - f);
-            shade(button.getWidth() + (4.0f * UCore.s), (Core.i.toolmenu.getPrefHeight() + f) - (UCore.s * 77.0f), (float) width, button.getHeight() + (7.0f * UCore.s));
+            shade(0.0f, 0.0f, (float) width, (Core.instance.toolmenu.getPrefHeight() + f) - (UCore.s * 77.0f));
+            shade(0.0f, Core.instance.toolmenu.getPrefHeight() + f, (float) width, ((float) height) - f);
+            shade(button.getWidth() + (4.0f * UCore.s), (Core.instance.toolmenu.getPrefHeight() + f) - (UCore.s * 77.0f), (float) width, button.getHeight() + (7.0f * UCore.s));
             color(select);
             rect(button);
             color(Color.WHITE);
             text((float) (width / 2), ((float) (height / 2)) + (220.0f * UCore.s), "Press this button to\ncontinue to the menu.");
-            if (Core.i.projectmenu.getStage() != null) {
+            if (Core.instance.projectmenu.getStage() != null) {
                 next();
             }
         }
@@ -315,16 +315,16 @@ public enum TutorialStage {
 
         /* access modifiers changed from: protected */
         public void draw() {
-            VisScrollPane pane = (VisScrollPane) Core.i.stage.getRoot().findActor("projectpane");
+            VisScrollPane pane = (VisScrollPane) Core.instance.stage.getRoot().findActor("projectpane");
             pane.setSmoothScrolling(false);
             pane.setScrollPercentY(0.0f);
-            ProjectMenu.ProjectTable table = Core.i.projectmenu.getFirstTable();
+            ProjectMenu.ProjectTable table = Core.instance.projectmenu.getFirstTable();
             project(table);
             shade(0.0f, 0.0f, (float) width, this.temp.y);
             clearshade(0.0f, 0.0f, (float) width, (float) height);
             shade(0.0f, this.temp.y + table.getHeight(), (float) width, ((float) height) - (this.temp.y + table.getHeight()));
             color(Color.WHITE);
-            rectarrow((VisImageButton) pane.findActor(String.valueOf(Core.i.projectmanager.getProjects().iterator().next().name) + this.names[this.stage] + "button"));
+            rectarrow((VisImageButton) pane.findActor(String.valueOf(Core.instance.projectmanager.getProjects().iterator().next().name) + this.names[this.stage] + "button"));
             text((float) (width / 2), ((float) (height / 2)) + (50.0f * UCore.s), "Use this button to " + this.names[this.stage] + " a project.");
             color(select);
             color(Color.PURPLE);
@@ -340,13 +340,13 @@ public enum TutorialStage {
         }
 
         public void end() {
-            ((VisScrollPane) Core.i.getCurrentDialog().getContentTable().findActor("projectpane")).setSmoothScrolling(true);
+            ((VisScrollPane) Core.instance.getCurrentDialog().getContentTable().findActor("projectpane")).setSmoothScrolling(true);
         }
     },
     newproject {
         /* access modifiers changed from: protected */
         public void draw() {
-            VisTextButton button = (VisTextButton) Core.i.stage.getRoot().findActor("newproject");
+            VisTextButton button = (VisTextButton) Core.instance.stage.getRoot().findActor("newproject");
             button.localToStageCoordinates(this.temp.set(0.0f, 0.0f));
             this.temp.y -= 6.0f;
             shade(0.0f, 0.0f, (float) width, this.temp.y);
@@ -366,7 +366,7 @@ public enum TutorialStage {
     settings {
         /* access modifiers changed from: protected */
         public void draw() {
-            VisTextButton button = (VisTextButton) Core.i.stage.getRoot().findActor("settings");
+            VisTextButton button = (VisTextButton) Core.instance.stage.getRoot().findActor("settings");
             button.localToStageCoordinates(this.temp.set(0.0f, 0.0f));
             this.temp.y -= 6.0f;
             shade(0.0f, 0.0f, (float) width, this.temp.y);
@@ -392,12 +392,12 @@ public enum TutorialStage {
         }
 
         public void tap(int x, int y) {
-            ((ClickListener) Core.i.stage.getRoot().findActor("modebutton").getListeners().get(0)).clicked((InputEvent) null, 0.0f, 0.0f);
-            if (Core.i.getCurrentDialog() != null) {
-                Core.i.getCurrentDialog().hide();
+            ((ClickListener) Core.instance.stage.getRoot().findActor("modebutton").getListeners().get(0)).clicked((InputEvent) null, 0.0f, 0.0f);
+            if (Core.instance.getCurrentDialog() != null) {
+                Core.instance.getCurrentDialog().hide();
             }
-            Core.i.collapseToolMenu();
-            ((Tutorial) Core.i.getModule(Tutorial.class)).end();
+            Core.instance.collapseToolMenu();
+            ((Tutorial) Core.instance.getModule(Tutorial.class)).end();
         }
     };
 
@@ -426,7 +426,7 @@ public enum TutorialStage {
 
     /* access modifiers changed from: package-private */
     public float colorHeight() {
-        return ((Table) find("colortable")).getPrefHeight() + Core.i.colormenu.getBoxBorder();
+        return ((Table) find("colortable")).getPrefHeight() + Core.instance.colormenu.getBoxBorder();
     }
 
     public void color(Color color) {
@@ -494,7 +494,7 @@ public enum TutorialStage {
     public void text(float x, float y, String text, int align) {
         VisUI.getSkin().getFont("border-font").getCache().clear();
         VisUI.getSkin().getFont("border-font").getCache().addText(text, x, y, 0.0f, align, false);
-        VisUI.getSkin().getFont("border-font").getCache().setAlphas(Core.i.stage.getBatch().getColor().a);
+        VisUI.getSkin().getFont("border-font").getCache().setAlphas(Core.instance.stage.getBatch().getColor().a);
         VisUI.getSkin().getFont("border-font").getCache().draw(this.batch);
     }
 
@@ -503,7 +503,7 @@ public enum TutorialStage {
     }
 
     public <T extends Actor> T find(String name) {
-        return Core.i.stage.getRoot().findActor(name);
+        return Core.instance.stage.getRoot().findActor(name);
     }
 
     public void tap(int x, int y) {

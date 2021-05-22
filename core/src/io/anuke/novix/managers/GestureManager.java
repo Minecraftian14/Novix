@@ -35,7 +35,7 @@ public class GestureManager implements GestureDetector.GestureListener {
     }
 
     public boolean fling(float velocityX, float velocityY, int button) {
-        if (Core.i.prefs.getBoolean("gestures", true) && Core.i.getCurrentDialog() == null && (Core.i.drawgrid.input.checkRange((int) this.touchy) || Core.i.toolmenu.getTool() != Tool.zoom || !Core.i.colorMenuCollapsed() || !Core.i.toolMenuCollapsed())) {
+        if (Core.instance.prefs.getBoolean("gestures", true) && Core.instance.getCurrentDialog() == null && (Core.instance.drawgrid.input.checkRange((int) this.touchy) || Core.instance.toolmenu.getTool() != Tool.zoom || !Core.instance.colorMenuCollapsed() || !Core.instance.toolMenuCollapsed())) {
             float swipevelocity2 = 1300.0f * UCore.s;
             float flingvelocity2 = 1300.0f * UCore.s;
             float tooltop = this.main.toolmenu.localToStageCoordinates(this.vector.set(0.0f, 0.0f)).y + this.main.toolmenu.getHeight();

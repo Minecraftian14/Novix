@@ -27,14 +27,14 @@ public class Tutorial extends Module<Novix> {
             for (Rectangle rect : TutorialStage.cliprects) {
                 rect.set(0.0f, 0.0f, 0.0f, 0.0f);
             }
-            Core.i.stage.getBatch().begin();
+            Core.instance.stage.getBatch().begin();
             if (this.stage.trans < 1.0f) {
                 if (this.laststage != null) {
                     this.laststage.trans -= this.shadespeed;
                     if (this.laststage.trans < 0.0f) {
                         this.laststage.trans = 0.0f;
                     }
-                    this.laststage.draw(Core.i.stage.getBatch());
+                    this.laststage.draw(Core.instance.stage.getBatch());
                 }
                 this.stage.trans += this.shadespeed;
                 if (this.stage.trans > 1.0f) {
@@ -42,19 +42,19 @@ public class Tutorial extends Module<Novix> {
                 }
                 Gdx.graphics.requestRendering();
             }
-            this.stage.draw(Core.i.stage.getBatch());
+            this.stage.draw(Core.instance.stage.getBatch());
             if (this.stage.next) {
                 this.stage.end();
                 this.laststage = this.stage;
                 this.stage = TutorialStage.values()[this.stage.ordinal() + 1];
                 this.stage.trans = 0.0f;
             }
-            Core.i.stage.getBatch().end();
+            Core.instance.stage.getBatch().end();
         } else if (this.stage.trans > 0.0f) {
             Gdx.graphics.requestRendering();
-            Core.i.stage.getBatch().begin();
-            this.stage.draw(Core.i.stage.getBatch());
-            Core.i.stage.getBatch().end();
+            Core.instance.stage.getBatch().begin();
+            this.stage.draw(Core.instance.stage.getBatch());
+            Core.instance.stage.getBatch().end();
             this.stage.trans -= this.shadespeed;
         }
     }
@@ -99,14 +99,14 @@ public class Tutorial extends Module<Novix> {
                         super.close();
                         if (this.confirming) {
                             Tutorial.this.end();
-                            if (Core.i.projectmenu.getStage() != null) {
-                                if (!Core.i.colorMenuCollapsed()) {
-                                    Core.i.collapseColorMenu();
+                            if (Core.instance.projectmenu.getStage() != null) {
+                                if (!Core.instance.colorMenuCollapsed()) {
+                                    Core.instance.collapseColorMenu();
                                 }
-                                if (!Core.i.toolMenuCollapsed()) {
-                                    Core.i.collapseToolMenu();
+                                if (!Core.instance.toolMenuCollapsed()) {
+                                    Core.instance.collapseToolMenu();
                                 }
-                                Core.i.projectmenu.hide();
+                                Core.instance.projectmenu.hide();
                                 return;
                             }
                             return;
@@ -116,7 +116,7 @@ public class Tutorial extends Module<Novix> {
 
                     public void hide() {
                     }
-                }.show(Core.i.stage);
+                }.show(Core.instance.stage);
             }
         }
         return inRect(x, y);

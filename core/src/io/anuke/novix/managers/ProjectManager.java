@@ -136,7 +136,7 @@ public class ProjectManager {
 
     public void saveProject() {
         saveProjectsFile();
-        Core.i.prefs.put("lastproject", getCurrentProject().id);
+        Core.instance.prefs.put("lastproject", getCurrentProject().id);
         this.savingProject = true;
         Novix.log("Starting save..");
         PixmapIO.writePNG(this.currentProject.getFile(), this.main.drawgrid.canvas.pixmap);
@@ -146,7 +146,7 @@ public class ProjectManager {
 
     private void loadProjectFile() {
         try {
-            ObjectMap<String, Project> map = (ObjectMap) this.json.fromJson(ObjectMap.class, Core.i.projectFile);
+            ObjectMap<String, Project> map = (ObjectMap) this.json.fromJson(ObjectMap.class, Core.instance.projectFile);
             this.projects = new ObjectMap<>();
             ObjectMap.Keys<String> it = map.keys().iterator();
             while (it.hasNext()) {
@@ -160,7 +160,7 @@ public class ProjectManager {
     }
 
     private void saveProjectsFile() {
-        Core.i.projectFile.writeString(this.json.toJson(this.projects), false);
+        Core.instance.projectFile.writeString(this.json.toJson(this.projects), false);
     }
 
     public void loadProjects() {
@@ -208,13 +208,13 @@ public class ProjectManager {
             } else {
                 tryLoadAnotherProject();
             }
-            Core.i.stage.addAction(Actions.sequence(Actions.delay(0.01f), new Action() {
+            Core.instance.stage.addAction(Actions.sequence(Actions.delay(0.01f), new Action() {
                 public boolean act(float delta) {
                     new DialogClasses.InfoDialog("Info", ProjectManager.this.backedup ? "[ORANGE]Your project file has been either corrupted or deleted.\n\n[GREEN]Fortunately, a backup has been found and loaded." : "[RED]Your project file has been either corrupted or deleted.\n\n[ORANGE]A backup has not been found.\n\n[ROYAL]If you believe this is an error, try reporting the circumstances under which you last closed the app at the Google Play store listing. This could help the developer fix the problem.") {
                         public void result() {
                             ProjectManager.this.currentProject.reloadTexture();
                         }
-                    }.show(Core.i.stage);
+                    }.show(Core.instance.stage);
                     return true;
                 }
             }));
@@ -237,11 +237,11 @@ public class ProjectManager {
     }
 
     public FileHandle getFile(long id) {
-        return Core.i.projectDirectory.child(String.valueOf(id) + ".png");
+        return Core.instance.projectDirectory.child(String.valueOf(id) + ".png");
     }
 
     public FileHandle getBackupFile(long id) {
-        return Core.i.projectDirectory.child(String.valueOf(id) + "-backup.png");
+        return Core.instance.projectDirectory.child(String.valueOf(id) + "-backup.png");
     }
 
     public long generateProjectID() {

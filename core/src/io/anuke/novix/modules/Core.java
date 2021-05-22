@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.FocusManager;
-import com.kotcrab.vis.ui.Sizes;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
 
@@ -48,7 +47,7 @@ import io.anuke.novix.tools.Tool;
 public class Core extends Module<Novix> {
 
     /* renamed from: i */
-    public static Core i;
+    public static Core instance;
     public final Color clearcolor = Color.valueOf("12161b");
     public ColorTable colormenu;
     public DrawingGrid drawgrid;
@@ -230,7 +229,7 @@ public class Core extends Module<Novix> {
 
     public VisDialog getCurrentDialog() {
         if (this.stage.getScrollFocus() != null) {
-            Actor actor = SceneUtils.getTopParent(i.stage.getScrollFocus());
+            Actor actor = SceneUtils.getTopParent(instance.stage.getScrollFocus());
             if (actor instanceof VisDialog) {
                 return (VisDialog) actor;
             }
@@ -297,7 +296,7 @@ public class Core extends Module<Novix> {
 
     public Core() {
         Gdx.graphics.setContinuousRendering(false);
-        i = this;
+        instance = this;
         this.projectDirectory.mkdirs();
         this.prefs = new PrefsManager(this);
         this.palettemanager = new PaletteManager(this);

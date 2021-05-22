@@ -16,7 +16,7 @@ import io.anuke.utools.MiscUtils;
 public enum Tool {
     pencil {
         public void clicked(Color color, PixelCanvas canvas, int x, int y) {
-            canvas.drawRadius(x, y, Core.i.drawgrid.brushSize);
+            canvas.drawRadius(x, y, Core.instance.drawgrid.brushSize);
         }
 
         public boolean scalable() {
@@ -25,7 +25,7 @@ public enum Tool {
     },
     eraser {
         public void clicked(Color color, PixelCanvas canvas, int x, int y) {
-            canvas.eraseRadius(x, y, Core.i.drawgrid.brushSize);
+            canvas.eraseRadius(x, y, Core.instance.drawgrid.brushSize);
         }
 
         public void onColorChange(Color color, PixelCanvas canvas) {
@@ -75,15 +75,15 @@ public enum Tool {
     pick(false) {
         public void clicked(Color color, PixelCanvas canvas, int x, int y) {
             Color selected = canvas.getColor(x, y);
-            for (int i = 0; i < Core.i.getCurrentPalette().size(); i++) {
-                if (Hue.approximate(selected, Core.i.getCurrentPalette().colors[i], 0.001f)) {
-                    Core.i.colormenu.setSelectedColor(i);
+            for (int i = 0; i < Core.instance.getCurrentPalette().size(); i++) {
+                if (Hue.approximate(selected, Core.instance.getCurrentPalette().colors[i], 0.001f)) {
+                    Core.instance.colormenu.setSelectedColor(i);
                     return;
                 }
             }
             selected.a = 1.0f;
-            Core.i.colormenu.setSelectedColor(selected);
-            Core.i.colormenu.addRecentColor(selected);
+            Core.instance.colormenu.setSelectedColor(selected);
+            Core.instance.colormenu.addRecentColor(selected);
         }
 
         public boolean symmetric() {
@@ -112,7 +112,7 @@ public enum Tool {
     },
     undo(false, false) {
         public void onSelected() {
-            Core.i.drawgrid.actions.undo(Core.i.canvas());
+            Core.instance.drawgrid.actions.undo(Core.instance.canvas());
         }
 
         public boolean selectable() {
@@ -121,7 +121,7 @@ public enum Tool {
     },
     redo(false, false) {
         public void onSelected() {
-            Core.i.drawgrid.actions.redo(Core.i.canvas());
+            Core.instance.drawgrid.actions.redo(Core.instance.canvas());
         }
 
         public boolean selectable() {

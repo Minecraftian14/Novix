@@ -80,7 +80,7 @@ public class ColorTable extends VisTable {
         Cell<?> cell = add(this.picker).expand().fill().padBottom(UCore.s * 10.0f).padTop(0.0f).padBottom(20.0f * UCore.s);
         row();
         center().add(palettebutton).align(1).padBottom(UCore.s * 10.0f).height(60.0f * UCore.s).growX();
-        this.collapser.setY(Core.i.toolmenu.getButton().getTop());
+        this.collapser.setY(Core.instance.toolmenu.getButton().getTop());
         this.collapser.toBack();
         this.collapser.resetY();
         Vector2 pos = this.picker.localToStageCoordinates(new Vector2());
@@ -108,11 +108,11 @@ public class ColorTable extends VisTable {
 
     public void openPaletteMenu() {
         this.palettemenu.update();
-        this.palettemenu.show(Core.i.stage);
+        this.palettemenu.show(Core.instance.stage);
     }
 
     public void setSelectedColor(int color) {
-        ((ClickListener) Core.i.colormenu.boxes[color].getListeners().get(0)).clicked((InputEvent) null, 0.0f, 0.0f);
+        ((ClickListener) Core.instance.colormenu.boxes[color].getListeners().get(0)).clicked((InputEvent) null, 0.0f, 0.0f);
     }
 
     public void addRecentColor(Color color) {
@@ -120,7 +120,7 @@ public class ColorTable extends VisTable {
     }
 
     public Color getSelectedColor() {
-        return Core.i.getCurrentPalette().colors[this.paletteColor];
+        return Core.instance.getCurrentPalette().colors[this.paletteColor];
     }
 
     public void resetPaletteColor() {
@@ -145,14 +145,14 @@ public class ColorTable extends VisTable {
         int maxcolorsize = (int) (65.0f * UCore.s);
         int mincolorsize = (int) (30.0f * UCore.s);
         int perow = 0;
-        int colorsize = Math.min(maxcolorsize, (Gdx.graphics.getWidth() / Core.i.getCurrentPalette().size()) - MiscUtils.densityScale(3));
+        int colorsize = Math.min(maxcolorsize, (Gdx.graphics.getWidth() / Core.instance.getCurrentPalette().size()) - MiscUtils.densityScale(3));
         if (colorsize < mincolorsize) {
             colorsize = mincolorsize;
             perow = Gdx.graphics.getWidth() / colorsize;
         }
         Cell fillX = this.colortable.add(this.collapsebutton).expandX().fillX();
         if (perow == 0) {
-            i = Core.i.getCurrentPalette().size();
+            i = Core.instance.getCurrentPalette().size();
         } else {
             i = perow;
         }
@@ -160,19 +160,19 @@ public class ColorTable extends VisTable {
         this.collapsebutton.setZIndex(this.collapser.getZIndex() + 10);
         this.colortable.row();
         this.colortable.add().growX();
-        this.boxes = new ColorBox[Core.i.getCurrentPalette().size()];
-        for (int i2 = 0; i2 < Core.i.getCurrentPalette().size(); i2++) {
+        this.boxes = new ColorBox[Core.instance.getCurrentPalette().size()];
+        for (int i2 = 0; i2 < Core.instance.getCurrentPalette().size(); i2++) {
             final int index = i2;
             final ColorBox box = new ColorBox();
             this.boxes[i2] = box;
             this.colortable.add(box).size((float) colorsize);
-            box.setColor(Core.i.getCurrentPalette().colors[i2]);
+            box.setColor(Core.instance.getCurrentPalette().colors[i2]);
             box.addListener(new ClickListener() {
                 public void clicked(InputEvent event, float x, float y) {
                     ColorTable.this.picker.addRecentColor(ColorTable.this.boxes[ColorTable.this.paletteColor].getColor().cpy());
                     ColorTable.this.boxes[ColorTable.this.paletteColor].selected = false;
                     ColorTable.this.paletteColor = index;
-                    Core.i.prefs.put("palettecolor", ColorTable.this.paletteColor);
+                    Core.instance.prefs.put("palettecolor", ColorTable.this.paletteColor);
                     box.selected = true;
                     box.toFront();
                     ColorTable.this.setSelectedColor(box.getColor());
@@ -191,19 +191,19 @@ public class ColorTable extends VisTable {
 
     public void updateSelectedColor(Color color) {
         this.boxes[this.paletteColor].setColor(color.cpy());
-        Core.i.getCurrentPalette().colors[this.paletteColor] = color.cpy();
-        Core.i.toolmenu.updateColor(color.cpy());
-        Core.i.updateToolColor();
+        Core.instance.getCurrentPalette().colors[this.paletteColor] = color.cpy();
+        Core.instance.toolmenu.updateColor(color.cpy());
+        Core.instance.updateToolColor();
     }
 
     public void setSelectedColor(Color color) {
         updateSelectedColor(color);
         this.picker.setSelectedColor(color);
-        Core.i.updateToolColor();
+        Core.instance.updateToolColor();
     }
 
     public void setupBoxColors() {
-        this.paletteColor = Core.i.prefs.getInteger("palettecolor", 0);
+        this.paletteColor = Core.instance.prefs.getInteger("palettecolor", 0);
         for (ColorBox box : this.boxes) {
             box.getColor().a = 1.0f;
         }
@@ -213,7 +213,7 @@ public class ColorTable extends VisTable {
         this.picker.setRecentColors(this.boxes);
         this.boxes[this.paletteColor].selected = true;
         this.boxes[this.paletteColor].toFront();
-        this.picker.setSelectedColor(Core.i.getCurrentPalette().colors[this.paletteColor]);
+        this.picker.setSelectedColor(Core.instance.getCurrentPalette().colors[this.paletteColor]);
     }
 
     public float getPrefWidth() {

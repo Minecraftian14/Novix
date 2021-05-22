@@ -66,8 +66,8 @@ public class DialogClasses {
             super(title);
             this.widthfield.setTextFieldFilter(new VisTextField.TextFieldFilter.DigitsOnlyFilter());
             this.heightfield.setTextFieldFilter(new VisTextField.TextFieldFilter.DigitsOnlyFilter());
-            this.widthfield.setText(new StringBuilder(String.valueOf(Core.i.drawgrid.canvas.width())).toString());
-            this.heightfield.setText(new StringBuilder(String.valueOf(Core.i.drawgrid.canvas.height())).toString());
+            this.widthfield.setText(new StringBuilder(String.valueOf(Core.instance.drawgrid.canvas.width())).toString());
+            this.heightfield.setText(new StringBuilder(String.valueOf(Core.instance.drawgrid.canvas.height())).toString());
             float twidth = 160.0f * UCore.s;
             float theight = 40.0f * UCore.s;
             getContentTable().add(new VisLabel("Width: ")).padLeft(UCore.s * 50.0f).padTop(UCore.s * 40.0f);
@@ -106,8 +106,8 @@ public class DialogClasses {
 
         public NamedSizeDialog(String title) {
             super(title);
-            this.widthfield.setText(new StringBuilder(String.valueOf(Core.i.drawgrid.canvas.width())).toString());
-            this.heightfield.setText(new StringBuilder(String.valueOf(Core.i.drawgrid.canvas.height())).toString());
+            this.widthfield.setText(new StringBuilder(String.valueOf(Core.instance.drawgrid.canvas.width())).toString());
+            this.heightfield.setText(new StringBuilder(String.valueOf(Core.instance.drawgrid.canvas.height())).toString());
             float twidth = 160.0f * UCore.s;
             float theight = 40.0f * UCore.s;
             getContentTable().add(new VisLabel("Name: ")).padLeft(UCore.s * 50.0f).padTop(UCore.s * 40.0f);
@@ -187,7 +187,7 @@ public class DialogClasses {
                     ColorChooseDialog.this.colorChanged();
                 }
             };
-            this.picker.setRecentColors(Core.i.colormenu.getRecentColors());
+            this.picker.setRecentColors(Core.instance.colormenu.getRecentColors());
             addCloseButton();
             getContentTable().add(this.picker).expand().fill();
             VisTextButton button = new VisTextButton("OK");
@@ -210,7 +210,7 @@ public class DialogClasses {
 
     /* renamed from: io.anuke.novix.ui.DialogClasses$ReplaceDialog */
     public static class ReplaceDialog extends FilterDialog {
-        ColorBox from = new ColorBox(Core.i.selectedColor());
+        ColorBox from = new ColorBox(Core.instance.selectedColor());
         ColorBox selected;
 
         /* renamed from: to */
@@ -227,7 +227,7 @@ public class DialogClasses {
                 public void clicked(InputEvent event, float x, float y) {
                     ReplaceDialog.this.selected = (ColorBox) event.getTarget();
                     dialog.picker.setSelectedColor(event.getTarget().getColor());
-                    dialog.show(Core.i.stage);
+                    dialog.show(Core.instance.stage);
                 }
             };
             this.from.addSelectListener();
@@ -266,7 +266,7 @@ public class DialogClasses {
         }
 
         private void setup(String colorname) {
-            this.selected = new ColorBox(Core.i.selectedColor());
+            this.selected = new ColorBox(Core.instance.selectedColor());
             this.selected.addSelectListener();
             final ColorChooseDialog dialog = new ColorChooseDialog(this) {
                 public void colorChanged() {
@@ -277,7 +277,7 @@ public class DialogClasses {
                 public void clicked(InputEvent event, float x, float y) {
                     ColorAlphaDialog.this.selected = (ColorBox) event.getTarget();
                     dialog.picker.setSelectedColor(event.getTarget().getColor());
-                    dialog.show(Core.i.stage);
+                    dialog.show(Core.instance.stage);
                 }
             });
             Table table = new VisTable();
@@ -434,12 +434,12 @@ public class DialogClasses {
 
         public final void result() {
             this.filter.apply(sourcePixmap(), pixmap(), getArgs());
-            Core.i.drawgrid.canvas.drawPixmap(pixmap());
+            Core.instance.drawgrid.canvas.drawPixmap(pixmap());
             pixmap().dispose();
         }
 
         public Pixmap sourcePixmap() {
-            return Core.i.drawgrid.canvas.pixmap;
+            return Core.instance.drawgrid.canvas.pixmap;
         }
 
         public Pixmap pixmap() {
@@ -449,7 +449,7 @@ public class DialogClasses {
         /* access modifiers changed from: package-private */
         public void addSliderChangeListener(VisSlider... sliders) {
             EventListener listener;
-            if (Core.i.isImageLarge()) {
+            if (Core.instance.isImageLarge()) {
                 listener = new InputListener() {
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         return true;
@@ -474,8 +474,8 @@ public class DialogClasses {
 
     /* renamed from: io.anuke.novix.ui.DialogClasses$SymmetryDialog */
     public static class SymmetryDialog extends MenuDialog {
-        VisCheckBox hbox = new VisCheckBox("Horizontal Symmetry", Core.i.drawgrid.hSymmetry);
-        VisCheckBox vbox = new VisCheckBox("Vertical Symmetry", Core.i.drawgrid.vSymmetry);
+        VisCheckBox hbox = new VisCheckBox("Horizontal Symmetry", Core.instance.drawgrid.hSymmetry);
+        VisCheckBox vbox = new VisCheckBox("Vertical Symmetry", Core.instance.drawgrid.vSymmetry);
 
         public SymmetryDialog() {
             super("Edit Symmetry");
@@ -487,8 +487,8 @@ public class DialogClasses {
         }
 
         public void result() {
-            Core.i.drawgrid.hSymmetry = this.hbox.isChecked();
-            Core.i.drawgrid.vSymmetry = this.vbox.isChecked();
+            Core.instance.drawgrid.hSymmetry = this.hbox.isChecked();
+            Core.instance.drawgrid.vSymmetry = this.vbox.isChecked();
         }
 
         /* access modifiers changed from: package-private */
@@ -501,9 +501,9 @@ public class DialogClasses {
     public static class ExportDialog extends MenuDialog {
         VisTextButton button;
         FileHandle file;
-        VisValidatableTextField heightfield = new VisValidatableTextField(new StringBuilder(String.valueOf(Core.i.canvas().height())).toString());
+        VisValidatableTextField heightfield = new VisValidatableTextField(new StringBuilder(String.valueOf(Core.instance.canvas().height())).toString());
         VisValidatableTextField scalefield;
-        VisValidatableTextField widthfield = new VisValidatableTextField(new StringBuilder(String.valueOf(Core.i.canvas().width())).toString());
+        VisValidatableTextField widthfield = new VisValidatableTextField(new StringBuilder(String.valueOf(Core.instance.canvas().width())).toString());
 
         public ExportDialog(FileHandle file2) {
             super("Export Image");
@@ -561,8 +561,8 @@ public class DialogClasses {
                 public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                     try {
                         float f = Float.parseFloat(ExportDialog.this.scalefield.getText());
-                        int w = (int) (((float) Core.i.canvas().width()) * f);
-                        int h = (int) (((float) Core.i.canvas().height()) * f);
+                        int w = (int) (((float) Core.instance.canvas().width()) * f);
+                        int h = (int) (((float) Core.instance.canvas().height()) * f);
                         ExportDialog.this.widthfield.setText(new StringBuilder(String.valueOf(w)).toString());
                         ExportDialog.this.heightfield.setText(new StringBuilder(String.valueOf(h)).toString());
                     } catch (Exception e) {
@@ -572,8 +572,8 @@ public class DialogClasses {
             this.widthfield.addListener(new ChangeListener() {
                 public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                     try {
-                        float f = ((float) Integer.parseInt(ExportDialog.this.widthfield.getText())) / ((float) Core.i.canvas().width());
-                        ExportDialog.this.heightfield.setText(new StringBuilder(String.valueOf((int) (((float) Core.i.canvas().height()) * f))).toString());
+                        float f = ((float) Integer.parseInt(ExportDialog.this.widthfield.getText())) / ((float) Core.instance.canvas().width());
+                        ExportDialog.this.heightfield.setText(new StringBuilder(String.valueOf((int) (((float) Core.instance.canvas().height()) * f))).toString());
                         ExportDialog.this.scalefield.setText(new StringBuilder(String.valueOf(f)).toString());
                     } catch (Exception e) {
                     }
@@ -582,8 +582,8 @@ public class DialogClasses {
             this.heightfield.addListener(new ChangeListener() {
                 public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                     try {
-                        float f = ((float) Integer.parseInt(ExportDialog.this.heightfield.getText())) / ((float) Core.i.canvas().height());
-                        ExportDialog.this.widthfield.setText(new StringBuilder(String.valueOf((int) (((float) Core.i.canvas().width()) * f))).toString());
+                        float f = ((float) Integer.parseInt(ExportDialog.this.heightfield.getText())) / ((float) Core.instance.canvas().height());
+                        ExportDialog.this.widthfield.setText(new StringBuilder(String.valueOf((int) (((float) Core.instance.canvas().width()) * f))).toString());
                         ExportDialog.this.scalefield.setText(new StringBuilder(String.valueOf(f)).toString());
                     } catch (Exception e) {
                     }
@@ -614,7 +614,7 @@ public class DialogClasses {
         }
 
         public void result() {
-            DialogClasses.exportPixmap(PixmapUtils.scale(Core.i.drawgrid.canvas.pixmap, Float.parseFloat(this.scalefield.getText())), this.file);
+            DialogClasses.exportPixmap(PixmapUtils.scale(Core.instance.drawgrid.canvas.pixmap, Float.parseFloat(this.scalefield.getText())), this.file);
         }
     }
 
@@ -659,22 +659,22 @@ public class DialogClasses {
         }
 
         public void result() {
-            long id = Core.i.projectmanager.generateProjectID();
-            Gdx.files.absolute(this.directory.getText()).copyTo(Core.i.projectmanager.getFile(id));
-            Core.i.projectmanager.openProject(Core.i.projectmanager.loadProject(this.namefield.getText(), id));
+            long id = Core.instance.projectmanager.generateProjectID();
+            Gdx.files.absolute(this.directory.getText()).copyTo(Core.instance.projectmanager.getFile(id));
+            Core.instance.projectmanager.openProject(Core.instance.projectmanager.loadProject(this.namefield.getText(), id));
         }
     }
 
     /* renamed from: io.anuke.novix.ui.DialogClasses$ScaleDialog */
     public static class ScaleDialog extends MenuDialog {
-        VisTextField heightfield = new VisTextField(new StringBuilder(String.valueOf(Core.i.drawgrid.canvas.height())).toString());
-        VisTextField widthfield = new VisTextField(new StringBuilder(String.valueOf(Core.i.drawgrid.canvas.width())).toString());
+        VisTextField heightfield = new VisTextField(new StringBuilder(String.valueOf(Core.instance.drawgrid.canvas.height())).toString());
+        VisTextField widthfield = new VisTextField(new StringBuilder(String.valueOf(Core.instance.drawgrid.canvas.width())).toString());
         VisTextField xscalefield;
         VisTextField yscalefield;
 
         public ScaleDialog() {
             super("Scale Image");
-            final float aspectRatio = ((float) Core.i.drawgrid.canvas.width()) / ((float) Core.i.drawgrid.canvas.height());
+            final float aspectRatio = ((float) Core.instance.drawgrid.canvas.width()) / ((float) Core.instance.drawgrid.canvas.height());
             this.widthfield.setTextFieldFilter(new VisTextField.TextFieldFilter.DigitsOnlyFilter());
             this.heightfield.setTextFieldFilter(new VisTextField.TextFieldFilter.DigitsOnlyFilter());
             this.xscalefield = new VisTextField("1");
@@ -703,8 +703,8 @@ public class DialogClasses {
                                 ScaleDialog.this.widthfield.setText(new StringBuilder(String.valueOf((int) (((float) value) * aspectRatio))).toString());
                             }
                         }
-                        float xscl = ((float) Integer.parseInt(ScaleDialog.this.widthfield.getText())) / ((float) Core.i.drawgrid.canvas.width());
-                        float yscl = ((float) Integer.parseInt(ScaleDialog.this.heightfield.getText())) / ((float) Core.i.drawgrid.canvas.height());
+                        float xscl = ((float) Integer.parseInt(ScaleDialog.this.widthfield.getText())) / ((float) Core.instance.drawgrid.canvas.width());
+                        float yscl = ((float) Integer.parseInt(ScaleDialog.this.heightfield.getText())) / ((float) Core.instance.drawgrid.canvas.height());
                         ScaleDialog.this.xscalefield.setText(MiscUtils.displayFloat(xscl));
                         ScaleDialog.this.yscalefield.setText(MiscUtils.displayFloat(yscl));
                         ScaleDialog.this.checkOkStatus(ScaleDialog.this.widthfield, ScaleDialog.this.heightfield, ScaleDialog.this.xscalefield, ScaleDialog.this.yscalefield);
@@ -724,8 +724,8 @@ public class DialogClasses {
                                 ScaleDialog.this.xscalefield.setText(MiscUtils.displayFloat(value));
                             }
                         }
-                        int width = (int) (Float.parseFloat(ScaleDialog.this.xscalefield.getText()) * ((float) Core.i.drawgrid.canvas.width()));
-                        int height = (int) (Float.parseFloat(ScaleDialog.this.yscalefield.getText()) * ((float) Core.i.drawgrid.canvas.height()));
+                        int width = (int) (Float.parseFloat(ScaleDialog.this.xscalefield.getText()) * ((float) Core.instance.drawgrid.canvas.width()));
+                        int height = (int) (Float.parseFloat(ScaleDialog.this.yscalefield.getText()) * ((float) Core.instance.drawgrid.canvas.height()));
                         ScaleDialog.this.widthfield.setText(new StringBuilder(String.valueOf(width)).toString());
                         ScaleDialog.this.heightfield.setText(new StringBuilder(String.valueOf(height)).toString());
                         ScaleDialog.this.checkOkStatus(ScaleDialog.this.widthfield, ScaleDialog.this.heightfield, ScaleDialog.this.xscalefield, ScaleDialog.this.yscalefield);
@@ -760,9 +760,9 @@ public class DialogClasses {
 
         public void result() {
             try {
-                Core.i.drawgrid.setCanvas(new PixelCanvas(PixmapUtils.scale(Core.i.drawgrid.canvas.pixmap, Float.parseFloat(this.xscalefield.getText()), Float.parseFloat(this.yscalefield.getText()))), true);
-                Core.i.checkGridResize();
-                Core.i.updateToolColor();
+                Core.instance.drawgrid.setCanvas(new PixelCanvas(PixmapUtils.scale(Core.instance.drawgrid.canvas.pixmap, Float.parseFloat(this.xscalefield.getText()), Float.parseFloat(this.yscalefield.getText()))), true);
+                Core.instance.checkGridResize();
+                Core.instance.updateToolColor();
             } catch (Exception e) {
                 e.printStackTrace();
                 DialogClasses.showError(getStage(), e);
@@ -866,9 +866,9 @@ public class DialogClasses {
             Stack stack = new Stack();
 
             public ShiftImagePreview() {
-                AlphaImage alpha = new AlphaImage((float) Core.i.drawgrid.canvas.width(), (float) Core.i.drawgrid.canvas.height());
-                GridImage grid = new GridImage(Core.i.drawgrid.canvas.width(), Core.i.drawgrid.canvas.height());
-                this.image = new ShiftedImage(Core.i.drawgrid.canvas.texture);
+                AlphaImage alpha = new AlphaImage((float) Core.instance.drawgrid.canvas.width(), (float) Core.instance.drawgrid.canvas.height());
+                GridImage grid = new GridImage(Core.instance.drawgrid.canvas.width(), Core.instance.drawgrid.canvas.height());
+                this.image = new ShiftedImage(Core.instance.drawgrid.canvas.texture);
                 this.controller = new ShiftController() {
                     public void shifted(int x, int y) {
                         ShiftImagePreview.this.image.offsetx += x;
@@ -877,7 +877,7 @@ public class DialogClasses {
                 };
                 this.stack.add(alpha);
                 this.stack.add(this.image);
-                if (Core.i.prefs.getBoolean("grid")) {
+                if (Core.instance.prefs.getBoolean("grid")) {
                     this.stack.add(grid);
                 }
                 this.stack.add(this.controller);
@@ -896,7 +896,7 @@ public class DialogClasses {
         }
 
         public void result() {
-            PixelCanvas canvas = Core.i.drawgrid.canvas;
+            PixelCanvas canvas = Core.instance.drawgrid.canvas;
             Pixmap temp = PixmapUtils.copy(canvas.pixmap);
             int offsetx = this.preview.image.offsetx;
             int offsety = this.preview.image.offsety;
@@ -933,8 +933,8 @@ public class DialogClasses {
             int x = Math.min(this.preview.controller.selx1, this.preview.controller.selx2);
             int x2 = Math.max(this.preview.controller.selx1, this.preview.controller.selx2);
             int y = Math.min(this.preview.controller.sely1, this.preview.controller.sely2);
-            Core.i.drawgrid.setCanvas(new PixelCanvas(PixmapUtils.crop(Core.i.drawgrid.canvas.pixmap, x, y, x2 - x, Math.max(this.preview.controller.sely1, this.preview.controller.sely2) - y)), true);
-            Core.i.updateToolColor();
+            Core.instance.drawgrid.setCanvas(new PixelCanvas(PixmapUtils.crop(Core.instance.drawgrid.canvas.pixmap, x, y, x2 - x, Math.max(this.preview.controller.sely1, this.preview.controller.sely2) - y)), true);
+            Core.instance.updateToolColor();
         }
 
         /* renamed from: io.anuke.novix.ui.DialogClasses$CropDialog$CropImagePreview */
@@ -942,7 +942,7 @@ public class DialogClasses {
             CropController controller;
 
             public CropImagePreview() {
-                super(Core.i.drawgrid.canvas.pixmap);
+                super(Core.instance.drawgrid.canvas.pixmap);
                 Stack stack = this.stack;
                 CropController cropController = new CropController(this);
                 this.controller = cropController;
@@ -1110,7 +1110,7 @@ public class DialogClasses {
         }
 
         public void result() {
-            PixelCanvas canvas = Core.i.drawgrid.canvas;
+            PixelCanvas canvas = Core.instance.drawgrid.canvas;
             float alpha = canvas.getAlpha();
             canvas.setAlpha(1.0f);
             for (int x = 0; x < canvas.width(); x++) {
@@ -1126,7 +1126,7 @@ public class DialogClasses {
 
     /* renamed from: io.anuke.novix.ui.DialogClasses$ColorFillDialog */
     public static class ColorFillDialog extends MenuDialog {
-        ColorBox selected = new ColorBox(Core.i.selectedColor());
+        ColorBox selected = new ColorBox(Core.instance.selectedColor());
 
         public ColorFillDialog() {
             super("Fill Color");
@@ -1143,7 +1143,7 @@ public class DialogClasses {
                 public void clicked(InputEvent event, float x, float y) {
                     ColorFillDialog.this.selected = (ColorBox) event.getTarget();
                     dialog.picker.setSelectedColor(event.getTarget().getColor());
-                    dialog.show(Core.i.stage);
+                    dialog.show(Core.instance.stage);
                 }
             });
             VisLabel label = new VisLabel("Fill Color:");
@@ -1153,7 +1153,7 @@ public class DialogClasses {
         }
 
         public void result() {
-            PixelCanvas canvas = Core.i.drawgrid.canvas;
+            PixelCanvas canvas = Core.instance.drawgrid.canvas;
             float alpha = canvas.getAlpha();
             int color = Color.rgba8888(this.selected.getColor());
             canvas.setAlpha(1.0f);
@@ -1430,15 +1430,15 @@ public class DialogClasses {
                 file = file.parent().child(String.valueOf(file.nameWithoutExtension()) + ".png");
             }
             PixmapIO.writePNG(file, pixmap);
-            showInfo(Core.i.stage, "Image exported to " + file + ".");
+            showInfo(Core.instance.stage, "Image exported to " + file + ".");
         } catch (Exception e) {
             e.printStackTrace();
-            showError(Core.i.stage, e);
+            showError(Core.instance.stage, e);
         }
     }
 
     static Cell<? extends Actor> resizeImageCell(Cell<? extends Actor> cell) {
-        float ratio = ((float) Core.i.drawgrid.canvas.width()) / ((float) Core.i.drawgrid.canvas.height());
+        float ratio = ((float) Core.instance.drawgrid.canvas.width()) / ((float) Core.instance.drawgrid.canvas.height());
         float isize = 400.0f * UCore.s;
         float width = isize;
         float height = isize / ratio;

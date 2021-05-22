@@ -14,7 +14,7 @@ public class DrawAction {
 
     public void push(int x, int y, int from, int to) {
         if (from != to) {
-            int key = MiscUtils.asInt(x, y, Core.i.drawgrid.canvas.width());
+            int key = MiscUtils.asInt(x, y, Core.instance.drawgrid.canvas.width());
             if (this.positions.containsKey(Integer.valueOf(key))) {
                 this.positions.get(Integer.valueOf(key)).tocolor = to;
             } else {
@@ -30,7 +30,7 @@ public class DrawAction {
     public void apply(PixelCanvas canvas, boolean reapply) {
         PixelCanvas pixelCanvas;
         if (this.fromCanvas != null) {
-            DrawingGrid drawingGrid = Core.i.drawgrid;
+            DrawingGrid drawingGrid = Core.instance.drawgrid;
             if (reapply) {
                 pixelCanvas = this.toCanvas;
             } else {
@@ -43,8 +43,8 @@ public class DrawAction {
         while (it.hasNext()) {
             Integer i = (Integer) it.next();
             ColorPair pos = this.positions.get(i);
-            int x = i.intValue() % Core.i.drawgrid.canvas.width();
-            int y = i.intValue() / Core.i.drawgrid.canvas.width();
+            int x = i.intValue() % Core.instance.drawgrid.canvas.width();
+            int y = i.intValue() / Core.instance.drawgrid.canvas.width();
             canvas.pixmap.setBlending(Pixmap.Blending.None);
             canvas.drawPixelActionless(x, y, reapply ? pos.tocolor : pos.fromcolor);
             canvas.pixmap.setBlending(Pixmap.Blending.SourceOver);

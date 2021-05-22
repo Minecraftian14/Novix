@@ -29,7 +29,7 @@ public class PixelCanvas implements Disposable {
 
     public PixelCanvas(Pixmap pixmap2) {
         this.pixmap = pixmap2;
-        this.name = Core.i.getCurrentProject().name;
+        this.name = Core.instance.getCurrentProject().name;
         this.texture = new Texture(pixmap2);
         updateTexture();
     }
@@ -37,7 +37,7 @@ public class PixelCanvas implements Disposable {
     public PixelCanvas(int width, int height) {
         this.pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         this.texture = new Texture(this.pixmap);
-        this.name = Core.i.getCurrentProject().name;
+        this.name = Core.instance.getCurrentProject().name;
         updateTexture();
     }
 
@@ -196,7 +196,7 @@ public class PixelCanvas implements Disposable {
     }
 
     public void updateTexture() {
-        if (!Core.i.projectmanager.isSavingProject()) {
+        if (!Core.instance.projectmanager.isSavingProject()) {
             Novix.log("Updating...");
             this.texture.draw(this.pixmap, 0, 0);
             this.drawn = false;
@@ -213,7 +213,7 @@ public class PixelCanvas implements Disposable {
 
     public void pushActions() {
         if (this.action.positions.size != 0) {
-            Core.i.actionStack().add(this.action);
+            Core.instance.actionStack().add(this.action);
             this.action = new DrawAction();
         }
     }

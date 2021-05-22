@@ -129,7 +129,7 @@ public class ColorWidget extends VisTable {
         style.over = null;
         style.checked = null;
         this.lock = new VisImageButton(style);
-        this.lock.setChecked(Core.i.prefs.getBoolean("lock"));
+        this.lock.setChecked(Core.instance.prefs.getBoolean("lock"));
         this.lock.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 ColorWidget.this.hbar.setDisabled(ColorWidget.this.lock.isChecked());
@@ -138,7 +138,7 @@ public class ColorWidget extends VisTable {
                 ColorWidget.this.hexbutton.setDisabled(ColorWidget.this.lock.isChecked());
                 colors.setTouchable(ColorWidget.this.lock.isChecked() ? Touchable.disabled : Touchable.childrenOnly);
                 colors.setColor(ColorWidget.this.lock.isChecked() ? new Color(1.0f, 1.0f, 1.0f, 0.5f) : Color.WHITE);
-                Core.i.prefs.put("lock", ColorWidget.this.lock.isChecked());
+                Core.instance.prefs.put("lock", ColorWidget.this.lock.isChecked());
             }
         });
         this.lock.fire(new ChangeListener.ChangeEvent());
