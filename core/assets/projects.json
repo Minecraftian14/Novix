@@ -1,14 +1,1 @@
-{
-  7090999444172994560: {
-    class: io.anuke.novix.tools.Project,
-    id: 7090999444172994560,
-    name: ASDf,
-    lastloadtime: 1507234002590
-  },
-  5631358008355324928: {
-    class: io.anuke.novix.internal.Project,
-    id: 5631358008355324928,
-    name: Testcopycopy,
-    lastloadtime: 1507233468519
-  }
-}
+{6831047538165279744:{class:io.anuke.novix.tools.Project,id:6831047538165279744,name:Untitled}}

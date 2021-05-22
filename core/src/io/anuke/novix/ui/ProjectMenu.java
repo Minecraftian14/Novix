@@ -43,7 +43,7 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
         super("Projects");
         this.main = mainref;
         addTitleSeperator();
-        padTop(getPadTop() + (10.0f * UCore.f331s));
+        padTop(getPadTop() + (10.0f * UCore.s));
         this.pane = new VisScrollPane(new VisTable()) {
             public float getPrefHeight() {
                 return (float) Gdx.graphics.getHeight();
@@ -53,7 +53,7 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
         this.pane.setFadeScrollBars(false);
         this.pane.setOverscroll(false, false);
         VisTable newtable = new VisTable();
-        final float newbuttonwidth = 190.0f * UCore.f331s;
+        final float newbuttonwidth = 190.0f * UCore.s;
         final VisTextButton newbutton = new VisTextButton("New Project");
         final PopupMenu popup = new PopupMenu() {
             public float getPrefWidth() {
@@ -84,7 +84,7 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
             }
         });
         newbutton.setName("newproject");
-        SceneUtils.addIconToButton(newbutton, new Image(VisUI.getSkin().getDrawable("icon-plus")), 32.0f * UCore.f331s);
+        SceneUtils.addIconToButton(newbutton, new Image(VisUI.getSkin().getDrawable("icon-plus")), 32.0f * UCore.s);
         VisTextButton settingsbutton = new VisTextButton("Settings");
         settingsbutton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -92,17 +92,17 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
             }
         });
         settingsbutton.setName("settings");
-        SceneUtils.addIconToButton(settingsbutton, new VisImage("icon-settings"), 32.0f * UCore.f331s);
-        newtable.left().add(newbutton).padBottom(6.0f * UCore.f331s).size(newbuttonwidth, 60.0f * UCore.f331s);
+        SceneUtils.addIconToButton(settingsbutton, new VisImage("icon-settings"), 32.0f * UCore.s);
+        newtable.left().add(newbutton).padBottom(6.0f * UCore.s).size(newbuttonwidth, 60.0f * UCore.s);
         newtable.left().add().grow();
-        newtable.left().add(settingsbutton).padBottom(6.0f * UCore.f331s).size(140.0f * UCore.f331s, 60.0f * UCore.f331s).align(18);
+        newtable.left().add(settingsbutton).padBottom(6.0f * UCore.s).size(140.0f * UCore.s, 60.0f * UCore.s).align(18);
         getContentTable().add(newtable).grow().row();
         getContentTable().top().left().add(this.pane).align(10).grow();
         VisTextButton projectback = new VisTextButton("Back");
-        projectback.add(new Image(VisUI.getSkin().getDrawable("icon-arrow-left"))).size(40.0f * UCore.f331s).center();
+        projectback.add(new Image(VisUI.getSkin().getDrawable("icon-arrow-left"))).size(40.0f * UCore.s).center();
         projectback.getCells().reverse();
-        projectback.getLabelCell().padRight(40.0f * UCore.f331s);
-        getButtonsTable().add(projectback).width((((float) Gdx.graphics.getWidth()) - getPadLeft()) - getPadRight()).height(60.0f * UCore.f331s);
+        projectback.getLabelCell().padRight(40.0f * UCore.s);
+        getButtonsTable().add(projectback).width((((float) Gdx.graphics.getWidth()) - getPadLeft()) - getPadRight()).height(60.0f * UCore.s);
         setObject(projectback, false);
     }
 
@@ -130,7 +130,7 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
                 z = true;
             }
             ProjectTable table = new ProjectTable(project, z);
-            scrolltable.top().left().add(table).padTop(8.0f * UCore.f331s).growX().padRight(10.0f * UCore.f331s).row();
+            scrolltable.top().left().add(table).padTop(8.0f * UCore.s).growX().padRight(10.0f * UCore.s).row();
             if (project == this.main.getCurrentProject()) {
                 current = table;
             }
@@ -167,7 +167,7 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
             this.loaded = startloaded;
             VisLabel namelabel = new VisLabel(project2.name);
             this.sizelabel.setColor(Color.GRAY);
-            float imagesize = 42.0f * UCore.f331s;
+            float imagesize = 42.0f * UCore.s;
             VisImageButton openbutton = new VisImageButton(VisUI.getSkin().getDrawable("icon-project-open"));
             openbutton.setGenerateDisabledImage(true);
             VisImageButton copybutton = new VisImageButton(VisUI.getSkin().getDrawable("icon-copy"));
@@ -213,9 +213,9 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
             deletebutton.getImageCell().size(imagesize);
             VisTable texttable = new VisTable();
             VisTable buttontable = new VisTable();
-            float bheight = 50.0f * UCore.f331s;
-            float space = 4.0f * UCore.f331s;
-            float pad = 3.0f * UCore.f331s;
+            float bheight = 50.0f * UCore.s;
+            float space = 4.0f * UCore.s;
+            float pad = 3.0f * UCore.s;
             buttontable.bottom().left().add(openbutton).align(12).height(bheight).growX().space(space).padBottom(pad);
             buttontable.add(copybutton).height(bheight).growX().space(space).padBottom(pad);
             buttontable.add(renamebutton).height(bheight).growX().space(space).padBottom(pad);
@@ -225,11 +225,11 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
             setColor(Hue.lightness(0.85f));
             this.imagecell = stack(new AnimatedImage(VisUI.getSkin().getDrawable("icon-load-1"), VisUI.getSkin().getDrawable("icon-load-2"), VisUI.getSkin().getDrawable("icon-load-3")), new BorderImage());
             this.imagecell.padTop(this.imagecell.getPadTop() + 4.0f).padBottom(this.imagecell.getPadBottom() + 4.0f);
-            SceneUtils.fitCell(this.imagecell, 128.0f * UCore.f331s, 1.0f);
+            SceneUtils.fitCell(this.imagecell, 128.0f * UCore.s, 1.0f);
             add(texttable).grow();
-            texttable.top().left().add(namelabel).padLeft(8.0f * UCore.f331s).align(10);
+            texttable.top().left().add(namelabel).padLeft(8.0f * UCore.s).align(10);
             texttable.row();
-            texttable.add(this.sizelabel).padLeft(8.0f * UCore.f331s).padTop(10.0f * UCore.f331s).align(10);
+            texttable.add(this.sizelabel).padLeft(8.0f * UCore.s).padTop(10.0f * UCore.s).align(10);
             texttable.row();
             texttable.add(buttontable).grow().padLeft(8.0f);
             setName("projecttable" + project2.name);
@@ -248,7 +248,7 @@ public class ProjectMenu extends DialogClasses.BaseDialog {
                     Texture texture = project7.cachedTexture;
                     ProjectTable.this.sizelabel.setText("Size: " + texture.getWidth() + "x" + texture.getHeight());
                     ProjectTable.this.imagecell.setActor(new StaticPreviewImage(texture));
-                    SceneUtils.fitCell(ProjectTable.this.imagecell, 128.0f * UCore.f331s, ((float) texture.getWidth()) / ((float) texture.getHeight()));
+                    SceneUtils.fitCell(ProjectTable.this.imagecell, 128.0f * UCore.s, ((float) texture.getWidth()) / ((float) texture.getHeight()));
                     ProjectTable.this.imagecell.padTop(ProjectTable.this.imagecell.getPadTop() + 4.0f).padBottom(ProjectTable.this.imagecell.getPadBottom() + 4.0f);
                     ProjectTable.this.pack();
                     ProjectTable.this.created = true;

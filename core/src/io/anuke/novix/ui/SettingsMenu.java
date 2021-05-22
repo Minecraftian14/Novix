@@ -29,10 +29,10 @@ public class SettingsMenu extends DialogClasses.BaseDialog {
         addTitleSeperator();
         getContentTable().add().height(20.0f).row();
         VisTextButton back = new VisTextButton("Back");
-        back.add(new Image(VisUI.getSkin().getDrawable("icon-arrow-left"))).size(UCore.f331s * 40.0f).center();
+        back.add(new Image(VisUI.getSkin().getDrawable("icon-arrow-left"))).size(UCore.s * 40.0f).center();
         back.getCells().reverse();
-        back.getLabelCell().padRight(UCore.f331s * 40.0f);
-        getButtonsTable().add(back).width((float) Gdx.graphics.getWidth()).height(60.0f * UCore.f331s);
+        back.getLabelCell().padRight(UCore.s * 40.0f);
+        getButtonsTable().add(back).width((float) Gdx.graphics.getWidth()).height(60.0f * UCore.s);
         setObject(back, false);
     }
 
@@ -50,7 +50,7 @@ public class SettingsMenu extends DialogClasses.BaseDialog {
         Table table = getContentTable();
         table.top().left().add(label).align(8);
         table.row();
-        table.add(slider).width(200.0f * UCore.f331s).padBottom(40.0f * UCore.f331s);
+        table.add(slider).width(200.0f * UCore.s).padBottom(40.0f * UCore.s);
         table.row();
     }
 
@@ -58,7 +58,7 @@ public class SettingsMenu extends DialogClasses.BaseDialog {
         final VisLabel label = new VisLabel();
         final VisSlider slider = new VisSlider(0.0f, 2.0f, 0.01f, false) {
             public float getPrefHeight() {
-                return 50.0f * UCore.f331s;
+                return 50.0f * UCore.s;
             }
         };
         DialogClasses.scaleSlider(slider);
@@ -73,9 +73,9 @@ public class SettingsMenu extends DialogClasses.BaseDialog {
         Table table = getContentTable();
         table.top().left().add(label).align(8);
         table.row();
-        table.add(slider).width(300.0f * UCore.f331s);
+        table.add(slider).width(300.0f * UCore.s);
         table.row();
-        table.add(new Separator()).colspan(1).padTop(10.0f * UCore.f331s).padBottom(5.0f * UCore.f331s).growX().row();
+        table.add(new Separator()).colspan(1).padTop(10.0f * UCore.s).padBottom(5.0f * UCore.s).growX().row();
     }
 
     public void addCheckSetting(final String name, boolean value) {
@@ -83,7 +83,7 @@ public class SettingsMenu extends DialogClasses.BaseDialog {
         final VisCheckBox box = new VisCheckBox("", this.main.prefs.getBoolean(convert(name), value));
         Table row = new VisTable();
         row.left();
-        box.getImageStackCell().size(40.0f * UCore.f331s);
+        box.getImageStackCell().size(40.0f * UCore.s);
         box.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 SettingsMenu.this.main.prefs.put(SettingsMenu.this.convert(name), box.isChecked());
@@ -93,17 +93,17 @@ public class SettingsMenu extends DialogClasses.BaseDialog {
         box.fire(new ChangeListener.ChangeEvent());
         Table table = getContentTable();
         row.top().left().add(label).align(8);
-        row.add(box).padLeft(150.0f * UCore.f331s);
-        table.add(row).padTop(UCore.f331s * 5.0f).padBottom(UCore.f331s * 5.0f).align(8);
+        row.add(box).padLeft(150.0f * UCore.s);
+        table.add(row).padTop(UCore.s * 5.0f).padBottom(UCore.s * 5.0f).align(8);
         table.row();
-        table.add(new Separator()).colspan(1).padTop(10.0f * UCore.f331s).growX().row();
+        table.add(new Separator()).colspan(1).padTop(10.0f * UCore.s).growX().row();
     }
 
     public void addButton(String name, ChangeListener listener) {
         VisTextButton button = new VisTextButton(name);
         button.addListener(listener);
         Table table = getContentTable();
-        table.top().left().add(button).size(200.0f * UCore.f331s, 60.0f * UCore.f331s).padTop(40.0f * UCore.f331s).align(8);
+        table.top().left().add(button).size(200.0f * UCore.s, 60.0f * UCore.s).padTop(40.0f * UCore.s).align(8);
         table.add().align(8);
     }
 

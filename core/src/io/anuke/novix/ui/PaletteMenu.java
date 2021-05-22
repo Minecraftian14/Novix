@@ -132,7 +132,7 @@ public class PaletteMenu extends DialogClasses.BaseDialog {
                     menu.showMenu(PaletteMenu.this.getStage(), (coords.x - menu.getWidth()) + widget.extrabutton.getWidth(), coords.y);
                 }
             });
-            palettetable.add(widget).padBottom(6.0f * UCore.f331s);
+            palettetable.add(widget).padBottom(6.0f * UCore.s);
             palettetable.row();
         }
         VisTextButton backbutton = new VisTextButton("Back");
@@ -151,12 +151,12 @@ public class PaletteMenu extends DialogClasses.BaseDialog {
                     {
                         this.numberfield.setTextFieldFilter(new VisTextField.TextFieldFilter.DigitsOnlyFilter());
                         this.box = new VisCheckBox("Auto-Generate", PaletteMenu.this.main.prefs.getBoolean("genpalettes", true));
-                        this.box.getImageStackCell().size(UCore.f331s * 40.0f);
+                        this.box.getImageStackCell().size(UCore.s * 40.0f);
                         getContentTable().center();
                         getContentTable().row();
-                        getContentTable().add(new VisLabel("Size:")).padTop(0.0f).padBottom(UCore.f331s * 20.0f);
-                        getContentTable().add(this.numberfield).pad(UCore.f331s * 20.0f).padBottom(UCore.f331s * 20.0f).padLeft(0.0f).padTop(0.0f).size(160.0f * UCore.f331s, UCore.f331s * 40.0f).row();
-                        getContentTable().add(this.box).colspan(2).padBottom(25.0f * UCore.f331s);
+                        getContentTable().add(new VisLabel("Size:")).padTop(0.0f).padBottom(UCore.s * 20.0f);
+                        getContentTable().add(this.numberfield).pad(UCore.s * 20.0f).padBottom(UCore.s * 20.0f).padLeft(0.0f).padTop(0.0f).size(160.0f * UCore.s, UCore.s * 40.0f).row();
+                        getContentTable().add(this.box).colspan(2).padBottom(25.0f * UCore.s);
                         new SceneUtils.TextFieldEmptyListener(this.f326ok, this.textfield, this.numberfield);
                     }
 
@@ -172,10 +172,10 @@ public class PaletteMenu extends DialogClasses.BaseDialog {
                 }.show(PaletteMenu.this.getStage());
             }
         });
-        SceneUtils.addIconToButton(addpalettebutton, new Image(VisUI.getSkin().getDrawable("icon-plus")), UCore.f331s * 40.0f);
-        SceneUtils.addIconToButton(backbutton, new Image(VisUI.getSkin().getDrawable("icon-arrow-left")), UCore.f331s * 40.0f);
-        getButtonsTable().add(backbutton).size(150.0f * UCore.f331s, UCore.f331s * 50.0f).padRight(UCore.f331s);
-        getButtonsTable().add(addpalettebutton).size(200.0f * UCore.f331s, UCore.f331s * 50.0f);
+        SceneUtils.addIconToButton(addpalettebutton, new Image(VisUI.getSkin().getDrawable("icon-plus")), UCore.s * 40.0f);
+        SceneUtils.addIconToButton(backbutton, new Image(VisUI.getSkin().getDrawable("icon-arrow-left")), UCore.s * 40.0f);
+        getButtonsTable().add(backbutton).size(150.0f * UCore.s, UCore.s * 50.0f).padRight(UCore.s);
+        getButtonsTable().add(addpalettebutton).size(200.0f * UCore.s, UCore.s * 50.0f);
         pack();
         this.main.stage.setScrollFocus(pane);
         pane.setSmoothScrolling(false);
