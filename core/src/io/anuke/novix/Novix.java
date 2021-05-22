@@ -1,23 +1,21 @@
 package io.anuke.novix;
 
 import com.badlogic.gdx.Gdx;
+import io.anuke.novix.modules.Core;
+import io.anuke.novix.modules.Input;
+import io.anuke.novix.modules.Tutorial;
+import io.anuke.ucore.modules.ModuleController;
 
-import io.anuke.ucore.modules.ModuleCore;
+/* renamed from: io.anuke.novix.Novix */
+public class Novix extends ModuleController<Novix> {
+    public void init() {
+        addModule(Input.class);
+        addModule(Core.class);
+        addModule(Tutorial.class);
+    }
 
-public class Novix extends ModuleCore {
-	
-	@Override
-	public void init(){
-		module(Vars.control = new Control());
-		module(Vars.ui = new UI());
-		module(Vars.drawing = new Drawing());
-	}
-	
-	public static void log(Object o){
-		StackTraceElement e = Thread.currentThread().getStackTrace()[2];
-		String name = e.getFileName().replace(".java", "");
-		
-		Gdx.app.log("[" + name + "::" + e.getMethodName() + "]", "" + o);
-	}
-	
+    public static void log(Object o) {
+        StackTraceElement e = Thread.currentThread().getStackTrace()[2];
+        Gdx.app.log("[" + e.getFileName().replace(".java", "") + "::" + e.getMethodName() + "]", new StringBuilder().append(o).toString());
+    }
 }
